@@ -11,3 +11,5 @@ Neste sistema, vamos considerar duas bases de dados D e T. A base D será utiliz
 
         ./make
         ./make run
+
+Em construcao...
