@@ -2,19 +2,23 @@
 
 <h3 align ="center">Escalonamento e Gestão de Memória Primária</h3>
 
-Trabalho da disciplina Sistemas Operacionais. A atividade propõe a construção de um sistema de classificação cujas características nos permitirão observar os conceitos de Escalonamento e Gestão de Memória Primária. Neste sistema, vamos considerar duas bases de dados D e T - ambas se referem ao famoso [Iris dataset](http://www.lac.inpe.br/~rafael.santos/Docs/CAP394/WholeStory-Iris.html) utilizado em análise exploratória de dados. A base D será utilizada para simular a inicialização, fornecendo assim o conceito de bootstrapping, tal como no sistema operacional. A base T representará os processos a serem executados.
+<p align="justify">Trabalho da disciplina Sistemas Operacionais. A atividade propõe a construção de um sistema de classificação cujas características nos permitirão observar os conceitos de Escalonamento e Gestão de Memória Primária. Neste sistema, vamos considerar duas bases de dados D e T - ambas se referem ao famoso [Iris dataset](http://www.lac.inpe.br/~rafael.santos/Docs/CAP394/WholeStory-Iris.html) utilizado em análise exploratória de dados. A base D será utilizada para simular a inicialização, fornecendo assim o conceito de bootstrapping, tal como no sistema operacional. A base T representará os processos a serem executados.</p>
 
-<p>| OS: Ubuntu 22.04.1 LTS | Compilador: gcc version 11.2.0 |</p>
+<h2 align="left">Compilação e Execução</h2>
+
+- OS: Ubuntu 22.04.1 LTS | Compilador: g++ version 11.2.0
+
+- Para executar abra o diretório do arquivo desejado e execute o MakeFile.
+
+| Comando    | Função                                                                                  |
+| ---------- | --------------------------------------------------------------------------------------- |
+| make clean | Apaga a última compilação realizada contida na pasta bin                                |
+| make       | Executa a compilação do programa utilizando o g++, e o resultado vai para a pasta bin   |
+| make run   | Executa o programa da pasta bin após a realização da compilação                         |
                 
-                
-     - Para executar abra o diretório do arquivo desejado e execute o MakeFile.
-
-        ./make
-        ./make run
-
 <h2 align ="left">Etapa I</h2>
 
-<p>A primeira etapa constitui na elaboração das tabelas hash para itens e classes a partir do arquivo D. Dada uma linha do arquivo D, consideraremos item as colunas de 0 a n - 1 e classe a coluna n. Os itens serão armazenados na hash "itensD", no qual a chave será representada por (coluna, medida) e o valor será representado pelos índices de todas as linhas onde a chave aparece. Para itens de mesmo valor, a indexação ocorrerá da seguinte maneira: se um item aparece na coluna 1 e 3 com valor 23.4, consideraremos como chave da hash (1, 23.4) e (3,23.4), respectivamente. De maneira análoga, a classe será armazenada na hash "classes", no qual a chave será representada por (espécie) e o valor será representado por suas indexações.</p>
+<p align="justify">A primeira etapa constitui na elaboração das tabelas hash para itens e classes a partir do arquivo D. Dada uma linha do arquivo D, consideraremos item as colunas de 0 a n - 1 e classe a coluna n. Os itens serão armazenados na hash "itensD", no qual a chave será representada por (coluna, medida) e o valor será representado pelos índices de todas as linhas onde a chave aparece. Para itens de mesmo valor, a indexação ocorrerá da seguinte maneira: se um item aparece na coluna 1 e 3 com valor 23.4, consideraremos como chave da hash (1, 23.4) e (3,23.4), respectivamente. De maneira análoga, a classe será armazenada na hash "classes", no qual a chave será representada por (espécie) e o valor será representado por suas indexações.</p>
 
 | ![e1-itensD.png](./images/e1-itensD.png?width="400") | 
 |:--:| 
@@ -26,7 +30,7 @@ Trabalho da disciplina Sistemas Operacionais. A atividade propõe a construção
 
 <h2 align ="left">Etapa II</h2>
 
-<p>Na segunda etapa é realizado a leitura do arquivo T, geração dos itens de T e em sua comparação com o itens criado na etapa anterior. Inicialmente, o conteúdo de T será armazenado na fila "itensT", em que cada posição armazena uma linha inteira do arquivo T. Para cada valor decimal presente na linha esse deve ser armazenado junto a sua coluna correspondente (semelhante a chave de itens). Em seguida, é feito a comparação dos itens de T com a tabela hash de itens, do arquivo D. Os itens comuns entre eles serão armazenados no vector "commonItens". Feito isso, para toda linha em commonItens é realizada a combinação entre seus elementos, sendo armazenados no arquivo "combinations.txt".</p>
+<p align="justify">Na segunda etapa é realizado a leitura do arquivo T, geração dos itens de T e em sua comparação com o itens criado na etapa anterior. Inicialmente, o conteúdo de T será armazenado na fila "itensT", em que cada posição armazena uma linha inteira do arquivo T. Para cada valor decimal presente na linha esse deve ser armazenado junto a sua coluna correspondente (semelhante a chave de itens). Em seguida, é feito a comparação dos itens de T com a tabela hash de itens, do arquivo D. Os itens comuns entre eles serão armazenados no vector "commonItens". Feito isso, para toda linha em commonItens é realizada a combinação entre seus elementos, sendo armazenados no arquivo "combinations.txt".</p>
 
 | ![e2-itensT.png](./images/e2-itensT.png?width="400") | 
 |:--:| 
@@ -42,7 +46,7 @@ Trabalho da disciplina Sistemas Operacionais. A atividade propõe a construção
 
 <h2 align ="left">Etapa III</h2>
 
-Na terceira etapa, para cada conjunto de combinação gerado é realizada a busca na hash itens. Em seguida, para cada valor encontrado é realizada a interseção, gerando um vetor de interseção. Por fim, é realizada novamente a interseção do vetor de interseção com os valores de cada classe, computando o tamanho da interseção entre eles à classe em questão. Após o processamento a classe que apresentar um valor de sobreposição maior será apresentada como classe da tarefa em T.
+<p align="justify">Na terceira etapa, para cada conjunto de combinação gerado é realizada a busca na hash itens. Em seguida, para cada valor encontrado é realizada a interseção, gerando um vetor de interseção. Por fim, é realizada novamente a interseção do vetor de interseção com os valores de cada classe, computando o tamanho da interseção entre eles à classe em questão. Após o processamento a classe que apresentar um valor de sobreposição maior será apresentada como classe da tarefa em T.</p>
 
 * Exemplo:
 
@@ -54,15 +58,15 @@ Na terceira etapa, para cada conjunto de combinação gerado é realizada a busc
   -  (3, 1.4) : 11 13 31 72 77 82 85 88
   -  (4, 0.2) : 6 10 11 13 17 30 31 39 48 56 60 68 78 82 83 84 88 90 94 97
   
-  <p>As chaves (1, 5.1)(2, 3.5)(3, 1.4)(4, 0.2) estão presentes em alguma linha do vetor "commonItens". Essas chaves geram um total de 15 combinações. Para combinações com apenas uma chave é realizado a interseção direta entre seu valor com as classes. Para combinações com mais de uma chave, por outro lado, é realizado primeiramente a interseção entre os valores das chaves para, em seguida, ser realizado a interseção do vetor interseção com os valores das classes.</p>
+<p align="justify">As chaves (1, 5.1)(2, 3.5)(3, 1.4)(4, 0.2) estão presentes em alguma linha do vetor "commonItens". Essas chaves geram um total de 15 combinações. Para combinações com apenas uma chave é realizado a interseção direta entre seu valor com as classes. Para combinações com mais de uma chave, por outro lado, é realizado primeiramente a interseção entre os valores das chaves para, em seguida, ser realizado a interseção do vetor interseção com os valores das classes.</p>
   
-  <p>Dessa forma, para as combinações (3, 1.4)(4, 0.2) temos o vetor de interseção <code>11 13 31 82 88</code> e para as combinações (1, 5.1)(2, 3.5)(3, 1.4) temos o vetor de interseção <code>77</code>. Assim que o vetor de interseção é gerado é chamada a função <code>computeClassIntersection</code>, que, por sua vez, recebe como parâmetro o vetor de interseção. Essa função então realiza a interseção do vetor de interseção com os valores das classes, computando o tamanho da nova interseção às seguintes variáveis: </p>
+<p align="justify">Dessa forma, para as combinações (3, 1.4)(4, 0.2) temos o vetor de interseção <code>11 13 31 82 88</code> e para as combinações (1, 5.1)(2, 3.5)(3, 1.4) temos o vetor de interseção <code>77</code>. Assim que o vetor de interseção é gerado é chamada a função <code>computeClassIntersection</code>, que, por sua vez, recebe como parâmetro o vetor de interseção. Essa função então realiza a interseção do vetor de interseção com os valores das classes, computando o tamanho da nova interseção às seguintes variáveis: </p>
   
   - unsigned int irisVersicolor = 0;
   - unsigned int irisVirginica = 0;
   - unsigned int irisSetosa = 0;
   
-  <p>No fim de cada interseção do vetor de interseção com os valores das classes o vetor é limpado. As computações das variáveis classes, por sua vez, são acumulativas. Ao final é imprimido na tela a classe com maior número de sobreposições.</p>
+<p align="justify">No fim de cada interseção do vetor de interseção com os valores das classes o vetor é limpado. As computações das variáveis classes, por sua vez, são acumulativas. Ao final é imprimido na tela a classe com maior número de sobreposições.</p>
 
 | ![e3-sobreposicao.png](./images/e3-sobreposicao.png?width="400") | 
 |:--:| 
