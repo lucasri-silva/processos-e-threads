@@ -44,6 +44,25 @@ Trabalho da disciplina Sistemas Operacionais. A atividade propõe a construção
 
 Na terceira etapa, para cada conjunto de combinação gerado é realizada a busca na hash itens. Em seguida, para cada valor encontrado é realizada a interseção, gerando um vetor de interseção. Por fim, é realizada novamente a interseção do vetor de interseção com os valores de cada classe, computando o tamanho da interseção entre eles à classe em questão. Após o processamento a classe que apresentar um valor de sobreposição maior será apresentada como classe da tarefa em T.
 
+* Exemplo:
+
+![e3-combinations-example.png](./images/e3-combinations-example.png?width="400")
+
+- Considerando o conjunto de combinações, do arquivo "combinations.txt", na imagem acima, temos as seguintes chaves e valores:
+  -  (1, 5.1) : 23 77 90 92 97
+  -  (2, 3.5) : 17 77 95
+  -  (3, 1.4) : 11 13 31 72 77 82 85 88
+  -  (4, 0.2) : 6 10 11 13 17 30 31 39 48 56 60 68 78 82 83 84 88 90 94 97
+  
+  <p>As chaves (1, 5.1)(2, 3.5)(3, 1.4)(4, 0.2) estão presentes em alguma linha do vetor "commonItens". Essas chaves geram um total de 15 combinações. Para combinações com apenas uma chave é realizado a interseção direta entre seu valor com as classes. Para combinações com mais de uma chave, por outro lado, é realizado primeiramente a interseção entre os valores das chaves para, em seguida, ser realizado a interseção do vetor interseção com os valores das classes.</p>
+  
+  <p>Dessa forma, para as combinações (3, 1.4)(4, 0.2) temos o vetor de interseção <code>11 13 31 82 88</code> e para as combinações (1, 5.1)(2, 3.5)(3, 1.4) temos o vetor de interseção <code>77</code>. Assim que o vetor de interseção é gerado é chamada a função <code>computeClassIntersection</code>, que, por sua vez, recebe como parâmetro o vetor de interseção. Essa função então realiza a interseção do vetor de interseção com os valores das classes, computando o tamanho da nova interseção às seguintes variáveis: </p>
+  
+  - unsigned int irisVersicolor = 0;
+  - unsigned int irisVirginica = 0;
+  - unsigned int irisSetosa = 0;
+  
+  <p>No fim de cada interseção do vetor de interseção com os valores das classes o vetor é limpado. As computações das variáveis classes, por sua vez, são acumulativas. Ao final é imprimido na tela a classe com maior número de sobreposições.</p>
 
 | ![e3-sobreposicao.png](./images/e3-sobreposicao.png?width="400") | 
 |:--:| 
