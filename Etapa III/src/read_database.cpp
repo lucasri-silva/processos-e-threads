@@ -245,11 +245,9 @@ void intersectionsBetweenCombinations()
     fstream file;
     file.open("combinations.txt");
     vector<string> keys;
-    vector<int> itensValues;
     char *charLine;
     char *token;
     string line;
-    int i = 1;
     unordered_map<string, vector<int>>::const_iterator otherKeysHash;
     unordered_map<string, vector<int>>::const_iterator firstKeyHash;
     string firstKey;
@@ -301,7 +299,6 @@ void intersectionsBetweenCombinations()
         }
         keys.clear();
         intersections.clear();
-        i++;
     }
     file.close();
 }
