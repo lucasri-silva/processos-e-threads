@@ -74,14 +74,14 @@
 
 <h2 align ="left">Etapa IV</h2>
 
-Essa etapa tem como objetivo a elaboração de um cache para armazenar o resultado das interseções já realizadas, de modo que para cada nova combinação é feita primeiramente a verificação se o resultado da interseção já foi processado, isto é, se o resultado está em cache. Em caso afirmativo, o resultado da interseção é retirado da cache para, em seguida, ser realizado sua interseção com as classes.
+<p align="justify">Essa etapa tem como objetivo a elaboração de um cache para armazenar o resultado das interseções já realizadas, de modo que para cada nova combinação é feita primeiramente a verificação se o resultado da interseção já foi processado, isto é, se o resultado está em cache. Em caso afirmativo, o resultado da interseção é retirado da cache para, em seguida, ser realizado sua interseção com as classes.</p>
 
 * Exemplo:
 
 <code>(3, 1.5) : 1 8 10 23 51 58 60 87 90</code>
 <br><code>(4, 0.1) : 8 51 55 85 87</code>
 
-Para as combinações acima a hash terá como chave (3, 1.5)(4, 0.1) e valor a interseção dessas combinações, que será <code>8 51 87</code>. Dessa forma, caso existir uma nova ocorrência dessas combinações no futuro o resultado da interseção será buscado em cache - em vez de ser recomputado.
+<p align="justify">Para as combinações acima a hash terá como chave (3, 1.5)(4, 0.1) e valor a interseção dessas combinações, que será <code>8 51 87</code>. Dessa forma, caso existir uma nova ocorrência dessas combinações no futuro o resultado da interseção será buscado em cache - em vez de ser recomputado.</p>
 
 
 | ![e4-cache.png](./images/e4-cache.png?width="400") | 
