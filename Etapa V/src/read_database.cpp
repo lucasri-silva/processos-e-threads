@@ -392,7 +392,7 @@ void intersectionsBetweenCombinations()
             combPos = 0;
         }
     }
-    // cout << "Número de acesso em cache: " << cacheAccess << endl;
+    cout << "Número de acesso em cache: " << cacheAccess << endl;
 }
 
 void computeClassIntersection(vector<int> intersections)
