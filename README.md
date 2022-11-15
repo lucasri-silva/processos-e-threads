@@ -90,7 +90,7 @@
 
 <h2 align ="left">Etapa V</h2>
 
-<p align="justify">Essa etapa propõe a criação de uma política de escalonamento que organize melhor as tarefas em T para que a sequência de execução aproveite melhor as computações realizadas, isto é, para que a cache seja melhor utilizada.</p> 
+<p align="justify">Essa etapa propõe a criação de uma política que organize melhor as tarefas em T para que a sequência de execução aproveite melhor as computações realizadas, isto é, para que a cache seja melhor utilizada.</p> 
 
 <h4 align="left">Nova Política</h4>
 
@@ -112,7 +112,7 @@ Temos os seguintes cenários:
 
 - <p align="justify">Dada a combinação de tamanho 3 <code>1, 4.9|2, 3.1|3, 1.5|</code>, primeiramente será buscado em cache a subkey <code>(1, 4.9)(2, 3.1)</code>. Se o valor de interseção da subkey for maior que zero, isto é, se houver interseção, então o valor dessa interseção será armazenada no vetor <code>intersectionKeysValues</code> para, em seguida, ser feito sua interseção com a última componente da combinação, a key <code>(3, 1.5)</code>. Por outro lado, se o valor da interseção da subkey <code>(1, 4.9)(2, 3.1)</code> for zero, então podemos afirmar que a interseção da combinação é zero, não sendo portanto necessário realizar essa computação.</p>
 
-- <p align="justify">Dada a combinação de tamanho 4 <code>1, 4.9|2, 3.1|3, 1.5|4, 0.1|</code>, primeiramente será buscado em cache a subkey <code>(1, 4.9)(2, 3.1)</code>. Seguindo a lógica acima, se houver interseção da subkey, então seu valor será armazenado no vetor <code>intersectionKeysValues</code>. Em seguidam será buscada a próxima subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code>. Houvendo interseção dessa subkey, então seu valor será sobrescrito no vetor. Por último, é realizada a busca da key que compõe toda a combinação <code>(1, 4.9)(2, 3.1)(3, 1.5)(4, 0.1)</code>. Se a key já existir em cache seu valor será buscado diretamente, do contrário será realizado a interseção do vetor <code>intersectionKeysValues</code>, que armazena a interseção da subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code> com a última componente da combinação, <code>(4, 0.1)</code>.</p>
+- <p align="justify">Dada a combinação de tamanho 4 <code>1, 4.9|2, 3.1|3, 1.5|4, 0.1|</code>, primeiramente será buscado em cache a subkey <code>(1, 4.9)(2, 3.1)</code>. Seguindo a lógica acima, se houver interseção da subkey, então seu valor será armazenado no vetor <code>intersectionKeysValues</code>. Em seguida será buscada a próxima subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code>. Houvendo interseção dessa subkey, então seu valor será sobrescrito no vetor. Por último, é realizada a busca da key que compõe toda a combinação <code>(1, 4.9)(2, 3.1)(3, 1.5)(4, 0.1)</code>. Se a key já existir em cache seu valor será buscado diretamente, do contrário será realizado a interseção do vetor <code>intersectionKeysValues</code>, que armazena a interseção da subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code> com a última componente da combinação, <code>(4, 0.1)</code>.</p>
 
 <h4 align="left">Comparação Entre as Políticas</h4>
 
@@ -120,7 +120,7 @@ Temos os seguintes cenários:
 
 | ![e5-comparacao-politicas.png](./images/e5-comparacao-politicas.png?width="400") | 
 |:--:| 
-| Resultado da alteração na política. Houve um maior número de busca em cache na implementação da nova política. |
+| Resultado da alteração na política. Houve um maior número de busca em cache (536) na implementação da nova política. |
 
 <p align="justify">Foi realizado também uma medição de tempo de execução do algoritmo com as diferentes políticas. Realizou-se a média do tempo de execução de 100 execuções de cada política, obtendo os valores abaixo. A partir dos dados é possível concluir que houve uma diminuição no tempo de execução correspondente a 29,8%.</p>
 
