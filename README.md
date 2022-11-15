@@ -87,3 +87,44 @@
 | ![e4-cache.png](./images/e4-cache.png?width="400") | 
 |:--:| 
 | Hash cache criada para armazenar o resultado das interseções entre as combinações. |
+
+<h2 align ="left">Etapa V</h2>
+
+<p align="justify">Essa etapa propõe a criação de uma política de escalonamento que organize melhor as tarefas em T para que a sequência de execução aproveite melhor as computações realizadas, isto é, para que a cache seja melhor utilizada.</p> 
+
+<h4 align="left">Nova Política</h4>
+
+<p align="justify">Para melhor organizar as tarefas em T o vetor que armazena as combinações foi reestruturado. A estrutura anterior do vetor <code>combinations</code> armazenava as combinações de forma desordenada, com as tarefas variando de tamanho de 1 à 4 (representado pela quantidade de keys). Dessa maneira, as interseções entre as keys de um determinado grupo de combinação era realizada dos tamanhos menores para os maiores. Realizada as interseções de um grupo de combinações o processo se repetia para as próximas interseções do próximo grupo de combinação, e assim por diante. 
+
+<p align="justify">Na nova política, por outro lado, o vetor combinações é um vetor de vetores com a seguinte forma <code>combinations(numberOfColumns - 1)</code>. A nova estrutura organiza as combinações por tamanho. O vetor <code>combinations</code> tem tamanho do número de colunas da base de dados T - 1 (exclui-se a coluna que contém as classes). Para cada posição do vector é armazenado um tamanho de combinação, como pode ser observado na imagem abaixo.</p>
+
+| ![e5-new-combinations.png](./images/e5-new-combinations.png?width="400") | 
+|:--:| 
+| Nova estrutura do vetor combinations. |
+
+<p align="justify">A nova estrutura é interessante pois ao computar as interseções entre as keys de uma combinação e as classes iremos começar pelas de menor tamanho, ou seja, pelas combinações armazenadas na posição 0 do vetor <code>combinations</code>. As combinações com tamanho 1 apresentam, em geral, maior valor de sobreposição com as classes quando comparado as demais. Outra vantagem de começar a realizar as interseções pelas combinações de menor tamanho para as de maiores tamanhos é que à medida que computamos os valores das combinações será possível verificar se determinada combinação terá ou não interseção a partir da verificação em cache das keys que a compõe. Em caso da possibilidade de haver interseção entre as keys que compõem a combinação ainda será possível reduzir o custo das interseções entre elas através da busca em cache.</p>
+
+Temos os seguintes cenários:
+
+- <p align="justify">Dada a combinação de tamanho 1 <code>1, 4.9|</code>, se essa for sua primeira ocorrência, então sua key <code>(1, 4.9)</code> e seu valor será armazenado em cache, do contrário ela será buscada diretamente em cache.</p>
+
+- <p align="justify">Dada a combinação de tamanho 2 <code>1, 4.9|2, 3.1|</code>, se essa for sua primeria ocorrência, então sua key <code>(1, 4.9)(2, 3.1)</code> e o valor da interseção dessas keys será armazenado em cache, do contrário ela será buscada diretamente em cache.</p>
+
+- <p align="justify">Dada a combinação de tamanho 3 <code>1, 4.9|2, 3.1|3, 1.5|</code>, primeiramente será buscado em cache a subkey <code>(1, 4.9)(2, 3.1)</code>. Se o valor de interseção da subkey for maior que zero, isto é, se houver interseção, então o valor dessa interseção será armazenada no vetor <code>intersectionKeysValues</code> para, em seguida, ser feito sua interseção com a última componente da combinação, a key <code>(3, 1.5)</code>. Por outro lado, se o valor da interseção da subkey <code>(1, 4.9)(2, 3.1)</code> for zero, então podemos afirmar que a interseção da combinação é zero, não sendo portanto necessário realizar essa computação.</p>
+
+- <p align="justify">Dada a combinação de tamanho 4 <code>1, 4.9|2, 3.1|3, 1.5|4, 0.1|</code>, primeiramente será buscado em cache a subkey <code>(1, 4.9)(2, 3.1)</code>. Seguindo a lógica acima, se houver interseção da subkey, então seu valor será armazenado no vetor <code>intersectionKeysValues</code>. Em seguidam será buscada a próxima subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code>. Houvendo interseção dessa subkey, então seu valor será sobrescrito no vetor. Por último, é realizada a busca da key que compõe toda a combinação <code>(1, 4.9)(2, 3.1)(3, 1.5)(4, 0.1)</code>. Se a key já existir em cache seu valor será buscado diretamente, do contrário será realizado a interseção do vetor <code>intersectionKeysValues</code>, que armazena a interseção da subkey <code>(1, 4.9)(2, 3.1)(3, 1.5)</code> com a última componente da combinação, <code>(4, 0.1)</code>.</p>
+
+<h4 align="left">Comparação Entre as Políticas</h4>
+
+<p align="justify">Na antiga política as tarefas em T estavam espalhadas, não havia nenhuma lei de separação entre os diferentes tamanhos das combinações e a ordem da realização das interseções. Além do mais, havia somente a busca completa da key em cache - não havia a possibilidade da verificação prévia de interseção através da quebra da key em subkeys e aproveitamento do valor de interseção das subkeys. A nova política busca corrigir os problemas mencionados, o que resultou em uma maior sobreposição das tarefas e uma diminuição da computação de interseções consequência do aumento de busca em cache.</p>
+
+| ![e5-comparacao-politicas.png](./images/e5-comparacao-politicas.png?width="400") | 
+|:--:| 
+| Resultado da alteração na política. Houve um maior número de busca em cache na implementação da nova política. |
+
+<p align="justify">Foi realizado também uma medição de tempo de execução do algoritmo com as diferentes políticas. Realizou-se a média do tempo de execução de 100 execuções de cada política, obtendo os valores abaixo. A partir dos dados é possível concluir que houve uma diminuição no tempo de execução correspondente a 29,8%.</p>
+
+- Tempo de execução Antiga Política: 7768 microsegundos
+- Tempo de execução Nova Política: 5448 microsegundos
+
+<p align="justify">Obs.: Os números finais de sobreposição das classes teve uma pequena divergência como pode ser observado.</p>
