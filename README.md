@@ -116,7 +116,7 @@ Temos os seguintes cenários:
 
 <h4 align="left">Comparação Entre as Políticas</h4>
 
-<p align="justify">Na antiga política as tarefas em T estavam espalhadas, não havia nenhuma lei de separação entre os diferentes tamanhos das combinações e a ordem da realização das interseções. Além do mais, havia somente a busca completa da key em cache - não havia a possibilidade da verificação prévia de interseção através da quebra da key em subkeys e aproveitamento do valor de interseção das subkeys. A nova política busca corrigir os problemas mencionados, o que resultou em uma maior sobreposição das tarefas e uma diminuição da computação de interseções consequência do aumento de busca em cache.</p>
+<p align="justify">Na antiga política as tarefas em T estavam espalhadas, não havia nenhuma lei de separação entre os diferentes tamanhos das combinações, nem na ordem de realização das interseções. Além do mais, havia somente a busca completa da key em cache - não havia a possibilidade da verificação prévia de interseção através da quebra da key em subkeys e aproveitamento do valor de interseção das subkeys. A nova política busca corrigir os problemas mencionados, o que resultou em uma maior sobreposição das tarefas e uma diminuição da computação de interseções consequência do aumento de busca em cache.</p>
 
 | ![e5-comparacao-politicas.png](./images/e5-comparacao-politicas.png?width="400") | 
 |:--:| 
@@ -124,7 +124,7 @@ Temos os seguintes cenários:
 
 <p align="justify">Foi realizado também uma medição de tempo de execução do algoritmo com as diferentes políticas. Realizou-se a média do tempo de execução de 100 execuções de cada política, obtendo os valores abaixo. A partir dos dados é possível concluir que houve uma diminuição no tempo de execução correspondente a 29,8%.</p>
 
-- Tempo de execução Antiga Política: 7768 microsegundos
-- Tempo de execução Nova Política: 5448 microsegundos
+- Tempo médio de execução Antiga Política: 7768 microsegundos
+- Tempo médio de execução Nova Política: 5448 microsegundos
 
 <p align="justify">Obs.: Os números finais de sobreposição das classes teve uma pequena divergência como pode ser observado.</p>
