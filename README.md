@@ -128,3 +128,21 @@ Temos os seguintes cenários:
 - Tempo médio de execução Nova Política: 5448 microsegundos
 
 <p align="justify">Obs.: Os números finais de sobreposição das classes teve uma pequena divergência como pode ser observado.</p>
+
+<h2 align ="left">Etapa VI</h2>
+
+<p align="justify">A última etapa do projeto propõe a implementação de uma memória primária para chavear processos. Nesse modelo, dado um limite de tempo de execução para uma tarefa, as tarefas que não concluirem por completo sua execução dentro do limite estabelecido serão colocadas em um espaço de memória para aguardar nova submissão.</p>
+
+<h4 align="left">Implementação da Memória Primária</h4>
+
+<p align="justify">Para a implementação da memória primária foi criado a <code>struct Process</code> e uma <code>fila de struct Process</code>. A struct armazena as variáveis necessárias para a retomada da execução da tarefa que não concluiu sua execução no teto estabelecido. Nela são armazenadas as variáveis <code>string task</code> e <code>int priority</code>. A variável <code>task</code> armazena a combinação (key) que será interseccionada com as classes e a variável <code>priority</code> representa seu nível de prioridade.</p>
+
+| ![e6-struct-process.png](./images/e6-struct-process.png?width="400") | 
+|:--:| 
+| Struct Process. |
+
+<p align="justify">Para determinar o tempo limite de execução para uma tarefa foi realizado a medição do tempo médio de execução individual de todas as tarefas. O intervalo de execução medido corresponde ao tempo de execução de uma tarefa realizar a inteseção entre as keys que a compõe, sendo possível sua busca em cache caso a computação já ter sido realizada. O tempo médio de execução individual de todas as tarefas obtido foi de 8816 nanosegundos. Com base nisso foi estabelecido o tempo limite de execução para uma tarefa de 13200 nanosegundos, que representa a extrapolação de 50% do tempo médio de execução. Isso significa que para qualquer tarefa que exceda esse tempo de execução ela será interrompida, não completando sua interseção com as classes, e armazenada na memória primária, na <code>fila de struct Process</code>, para posterior reexecução.</p>
+
+| ![e6-execution-time-limit-13200.png](./images/e6-execution-time-limit-13200.png?width="400") | 
+|:--:| 
+| Resultado de execução com tempo limite de 13200 nanosegundos. A imagem mostra as tarefas, e suas respectivas prioridades, que excederam o limite estabelecido. |
