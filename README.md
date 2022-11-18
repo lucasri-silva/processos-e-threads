@@ -90,19 +90,25 @@
 
 <h2 align ="left">Etapa V</h2>
 
-<p align="justify">Essa etapa propõe a criação de uma política que organize melhor as tarefas em T para que a sequência de execução aproveite melhor as computações realizadas, isto é, para que a cache seja melhor utilizada.</p> 
+<p align="justify">Essa etapa propõe a criação de uma política que organize melhor as tarefas em T para que a sequência de execução aproveite melhor as computações realizadas, isto é, para que a cache seja melhor utilizada.</p>
+
+<h4 align="left">Antiga Política</h4>
+
+<p align="justify">Podemos dizer que a antiga política de escalonamento é FCFS (First-Come, First-Served), uma vez que não há nenhum critério de organização da ordem de execução das tarefas (combinações), isto é, à medida que as tarefas chegam elas são adicionadas na última posição (tail) do vetor <code>combinations</code>. Uma vez na CPU o processo não pode ser interrompido. A simplicidade dessa política impossibilita a otimização do grau de sobreposição das tarefas e a redução do número de computações a serem realizadas.</p>
 
 <h4 align="left">Nova Política</h4>
 
-<p align="justify">Para melhor organizar as tarefas em T o vetor que armazena as combinações foi reestruturado. A estrutura anterior do vetor <code>combinations</code> armazenava as combinações de forma desordenada, com as tarefas variando de tamanho de 1 à 4 (representado pela quantidade de keys). Dessa maneira, as interseções entre as keys de um determinado grupo de combinação era realizada dos tamanhos menores para os maiores. Realizada as interseções de um grupo de combinações o processo se repetia para as próximas interseções do próximo grupo de combinação, e assim por diante. 
-
-<p align="justify">Na nova política, o vetor combinações é um vetor de vetores com a seguinte forma <code>combinations(numberOfColumns - 1)</code>. A nova estrutura organiza as combinações por tamanho. O vetor <code>combinations</code> tem tamanho do número de colunas da base de dados T - 1 (exclui-se a coluna que contém as classes). Para cada posição do vector é armazenado um tamanho de combinação, como pode ser observado na imagem abaixo.</p>
+<p align="justify">Para melhor organizar as tarefas em T o vetor que armazena as combinações foi reestruturado. A estrutura anterior do vetor <code>combinations</code> armazenava as combinações de forma desordenada, com as tarefas variando de tamanho de 1 à 4 (representado pela quantidade de keys). Na nova política, o vetor combinações é um vetor de vetores com a seguinte forma <code>combinations(numberOfColumns - 1)</code>. A nova estrutura organiza as combinações por tamanho. O vetor <code>combinations</code> tem tamanho do número de colunas da base de dados T - 1 (exclui-se a coluna que contém as classes). Para cada posição do vector é armazenado um tamanho de combinação, como pode ser observado na imagem abaixo.</p>
 
 | ![e5-new-combinations.png](./images/e5-new-combinations.png?width="400") | 
 |:--:| 
 | Nova estrutura do vetor combinations. |
 
 <p align="justify">A nova estrutura é interessante pois ao computar as interseções entre as keys de uma combinação e as classes iremos começar pelas de menor tamanho, ou seja, pelas combinações armazenadas na posição 0 do vetor <code>combinations</code>. As combinações com tamanho 1 apresentam, em geral, maior valor de sobreposição com as classes quando comparado as demais. Outra vantagem de começar a realizar as interseções pelas combinações de menor tamanho para as de maiores tamanho é que à medida que computamos os valores das combinações será possível verificar se determinada combinação terá ou não interseção a partir da verificação em cache das keys que a compõe. Em caso da possibilidade de haver interseção entre as keys que compõem a combinação ainda será possível reduzir o custo das interseções entre elas através da busca em cache.</p>
+
+<p align="justify">Considerando as características da nova política de várias filas, representadas pelas posições do vetor <code>combinations</code>, e sua ordem de execução baseada no tamanho das combinações, podemos dizer que o novo algoritmo de escalonamento é do tipo Múltiplas Filas. A prioridade de execução entre as filas é dada pelo tamanho das combinações que elas armazenam, sendo combinação de tamanho 1 a de maior prioridade. Cada fila implementa FIFO como política interna.</p>
+
+<h4 align="left">Detalhes da Nova Política</h4>
 
 Temos os seguintes cenários:
 
