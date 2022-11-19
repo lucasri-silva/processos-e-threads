@@ -152,3 +152,16 @@ Temos os seguintes cenários:
 | ![e6-execution-time-limit-13200.png](./images/e6-execution-time-limit-13200.png?width="400") | 
 |:--:| 
 | Resultado de execução com tempo limite de 13200 nanosegundos. A imagem mostra as tarefas, e suas respectivas prioridades, que excederam o limite estabelecido. |
+
+
+<h2 align ="left">Etapa Adicional</h2>
+
+<p align="justify">Nessa etapa é proposto a paralelização do algoritmo utilizando threads, rodando múltiplas entradas ao mesmo tempo e comparando qual o número ideal de trheads aplicáveis ao problema.</p>
+
+<p align="justify">Foi implementado o problema do Produtor x Consumidor. O Produtor é representado pela função <code>parametersCombination</code>, responsável por realizar gerar as combinações. Já o Consumidor é representado pela função <code>intersectionsBetweenCombinations</code>, que realiza as interseções entre as combinações e as classes. Assim, à medida que são geradas as combinações essas são consumidas, sendo intersectadas entre si, primeiramente, para posteriormente ser interseccionada com as classes.</p>
+
+<p align="justify">Na implementação foram utilizadas variáveis <code>mutex</code> para ajudar na sincronização das threads e também para proteger os dados compartilhados (região crítica) de serem acessados simultaneamente pelas threads. Na implementação também foi utilizado o <code>sleep</code>. Antes de uma thread realizar o primeiro lock, implementei um sleep por 1 nanosegundo. Notei que se não for feito isso praticamente 1 thread é responsável por realizar, aproximadamente, 70% da computação. Fazendo isso a computação, da geração das combinações e interseções, se distribui entre as threads.</p>
+
+| ![graph-threads.png](./images/graph-threads.png?width="400") | 
+|:--:| 
+| Resultado da paralelização com múltiplas threads. O tempo de execução tende a se estabilizar na faixa de 13000 microsegundos com 5 threads para produtor e consumidor. O tempo de execução com threads é superior ao tempo de execução sem threads, isso pode ser explicado pelo fato do escalonador ter optado em chavear as threads em um único core, comum em sistemas Linux. |
