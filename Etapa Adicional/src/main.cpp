@@ -52,7 +52,7 @@ int main()
         file << to_string(x.count()) << ",";
         numExecutions++;
         // printCombinations(&combinations);
-        // classWithGreaterOverlap();
+        classWithGreaterOverlap();
         setCommonItensThreadIndex();
         setCombinationsThreadIndex();
         setFlowers();
